@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyChzmoXii9ivE4SklGE_3iZIH7jNecppnU",
@@ -11,13 +12,31 @@ const firebaseConfig = {
   appId: "1:114449661089897027245:web:3b16e0660ab9991f42b3e1",
 };
 
+// Initialize Firebase with the configuration
 const firebaseApp = initializeApp(firebaseConfig);
+
+// Get Firebase authentication and Firestore instances
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
+// Create a GoogleAuthProvider instance for Google sign-in
+const googleAuthProvider = new GoogleAuthProvider();
+
+// Function to sign in with Google
 const signInWithGoogle = () => {
-  const provider = new GoogleAuthProvider();
-  return auth.signInWithPopup(provider);
+  return auth.signInWithPopup(googleAuthProvider);
 };
 
-export { auth, db, firebaseApp, signInWithGoogle, initializeApp };
+// Function to sign out
+const signOut = () => {
+  return auth.signOut();
+};
+
+// Function to check if a user is authenticated
+const checkAuthStatus = (callback) => {
+  onAuthStateChanged(auth, (user) => {
+    callback(user);
+  });
+};
+
+export { auth, db, firebaseApp, signInWithGoogle, signOut, checkAuthStatus };
