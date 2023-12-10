@@ -1,10 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQD6TMwpJDRpj3yH" +
-    "eWcCdL2WvYyI44IfEB9sNkLo5RKLYbsMvvP+6cZC2F1QTL97nxcfeCibMpUe89BQ",
+  apiKey: "AIzaSyChzmoXii9ivE4SklGE_3iZIH7jNecppnU",
   authDomain: "trainmystaff-6e604.firebaseapp.com",
   projectId: "trainmystaff-6e604",
   storageBucket: "trainmystaff-6e604.appspot.com",
@@ -16,4 +15,9 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
-export { auth, db, firebaseApp };
+const signInWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  return auth.signInWithPopup(provider);
+};
+
+export { auth, db, firebaseApp, signInWithGoogle, initializeApp };
